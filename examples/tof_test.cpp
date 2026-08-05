@@ -205,12 +205,12 @@ int main(int argc, char *argv[]) {
   /// abnormal count
   optval = 4;
   laser.setlidaropt(LidarPropAbnormalCheckCount, &optval, sizeof(int));
-//  optval = 16;
-//  laser.setlidaropt(LidarPropIntenstiyBit, &optval, sizeof(int));
+  optval = 0;
+  laser.setlidaropt(LidarPropIntenstiyBit, &optval, sizeof(int));
 
   //////////////////////bool property/////////////////
   /// fixed angle resolution
-  bool b_optvalue = false;
+  bool b_optvalue = true;
   laser.setlidaropt(LidarPropFixedResolution, &b_optvalue, sizeof(bool));
   /// rotate 180
   b_optvalue = false;
@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
 
   //////////////////////float property/////////////////
   /// unit: °
-  float f_optvalue = 180.0f;
+  float f_optvalue = 0.0f;
   laser.setlidaropt(LidarPropMaxAngle, &f_optvalue, sizeof(float));
   f_optvalue = -180.0f;
   laser.setlidaropt(LidarPropMinAngle, &f_optvalue, sizeof(float));
@@ -243,6 +243,9 @@ int main(int argc, char *argv[]) {
   laser.setlidaropt(LidarPropMinRange, &f_optvalue, sizeof(float));
   /// unit: Hz
   laser.setlidaropt(LidarPropScanFrequency, &frequency, sizeof(float));
+
+  // laser.setEnableDebug(true);
+  // laser.setAutoIntensity(false);
 
   /// initialize SDK and LiDAR.
   bool ret = laser.initialize();
@@ -279,23 +282,23 @@ int main(int argc, char *argv[]) {
       //     i, p.angle * 180 / M_PI, p.range, p.intensity);
       // }
       //打印首点和尾点时间戳
-      if (scan.points.size())
-      {
-        //如果上一圈末点时间戳大于当前圈首点时间戳则打印警告信息，否则打印正常信息
-        uint64_t lastStamp = scan.stamp + 
-          uint64_t((scan.points.size() - 1) * 1e9 * scan.config.time_increment);
-        if (scan.stamp < stamp)
-          core::common::warn("first %llu last %llu size %lu",
-            scan.stamp, 
-            lastStamp,
-            scan.points.size());
-        else
-          core::common::info("first %llu last %llu size %lu",
-            scan.stamp, 
-            lastStamp,
-            scan.points.size());
-        stamp = lastStamp;
-      }
+//      if (scan.points.size())
+//      {
+//        //如果上一圈末点时间戳大于当前圈首点时间戳则打印警告信息，否则打印正常信息
+//        uint64_t lastStamp = scan.stamp +
+//          uint64_t((scan.points.size() - 1) * 1e9 * scan.config.time_increment);
+//        if (scan.stamp < stamp)
+//          core::common::warn("first %llu last %llu size %lu",
+//            scan.stamp,
+//            lastStamp,
+//            scan.points.size());
+//        else
+//          core::common::info("first %llu last %llu size %lu",
+//            scan.stamp,
+//            lastStamp,
+//            scan.points.size());
+//        stamp = lastStamp;
+//      }
     }
     else
     {
